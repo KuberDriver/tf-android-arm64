@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out tf repo
-        uses: actions/checkout@master
+        uses: actions/checkout@main
         with:
           repository: hashicorp/terraform
       - name: Install dependencies
