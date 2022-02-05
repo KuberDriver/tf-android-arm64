@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@main
         with:
           repository: hashicorp/terraform
-      - name: Install dependencies
-        run: |
-          pwd
-          ls
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.17.0' # The Go version to download (if necessary) and use.
+      - run: go version          
