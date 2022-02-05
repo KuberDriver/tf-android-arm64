@@ -1,0 +1,17 @@
+name: Build and Publish terraform and providers
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out tf repo
+        uses: actions/checkout@master
+        with:
+          repository: hashicorp/terraform
+      - name: Install dependencies
+        run: |
+          pwd
+          ls
