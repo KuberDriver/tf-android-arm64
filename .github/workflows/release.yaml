@@ -23,6 +23,8 @@ jobs:
 
       - name: Build terraform for GOOS=android GOARCH=arm64 
         run: |
+          echo $GITHUB_WORKSPACE
+          ls $GITHUB_WORKSPACE
           cd $GITHUB_WORKSPACE/terraform
           git status
           #cat ./.go-version
