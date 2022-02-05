@@ -7,10 +7,6 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - name: Check out tf repo
-        uses: actions/checkout@main
-        with:
-          repository: hashicorp/terraform
       - uses: actions/setup-go@v2
         with:
           go-version: '1.17.2' # The Go version to download (if necessary) and use.
@@ -18,6 +14,7 @@ jobs:
       - run: |
           pwd
           ls
+          git clone https://github.com/hashipcorp/terraform.git
           cd terraform
           git checkout v1.1
           cat ./.go-version
