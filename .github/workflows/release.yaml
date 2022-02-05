@@ -14,4 +14,5 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: '1.17.0' # The Go version to download (if necessary) and use.
-      - run: go version          
+      - run: go version
+      - run: GOOS=androird GOARCH=arm64 go build -o bin/terraform          
