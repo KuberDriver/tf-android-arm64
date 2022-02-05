@@ -63,7 +63,7 @@ jobs:
         run: |
           pwd
           ls
-          zip --junk-paths tf-artifact README.md
+          zip -r $GITHUB_WORKSPACE/tf-artifact.zp ./bin --junk-paths
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
