@@ -24,4 +24,5 @@ jobs:
           cd terraform
           git status
           cat ./.go-version
-          GOOS=android GOARCH=arm64 go build -o bin/terraform          
+          GOOS=android GOARCH=arm64 go build -o ${GITHUB_WORKSPACE}/bin/terraform          
+          ls ${GITHUB_WORKSPACE}/bin
