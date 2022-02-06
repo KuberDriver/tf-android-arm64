@@ -19,7 +19,7 @@ jobs:
         with:
           repository: hashicorp/terraform
           path: ./terraform
-          ref: v0.15
+          ref: v0.14
 
       - name: Build terraform for GOOS=android GOARCH=arm64 
         run: |
