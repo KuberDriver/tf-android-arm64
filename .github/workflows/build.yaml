@@ -19,12 +19,20 @@ jobs:
       - name: zeitgeist validate
         run: ./hack/verify-dependencies.sh
 
-      - name: Check out terraform repo
-        uses: actions/checkout@v2
+      # - name: Check out terraform repo
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: hashicorp/terraform
+      #     path: ./terraform
+      #     ref: ${{ tfversion }}
+      
+      - uses: robinraju/release-downloader@v1.3
         with:
-          repository: hashicorp/terraform
-          path: ./terraform
-          ref: ${{ env.tfversion }}
+          repository: "user/repo"
+          tag: "${{ tfversion }}"
+          zipBall: true
+          filename: "terraform.zip"
+      - run: unzip terraform.zip
 
       - name: Build terraform for GOOS=android GOARCH=arm64 
         run: |
