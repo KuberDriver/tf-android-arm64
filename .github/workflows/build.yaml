@@ -31,8 +31,7 @@ jobs:
           repository: "hashicorp/terraform"
           tag: "v${{ env.tfversion }}"
           zipBall: true
-          filename: "terraform.zip"
-      - run: unzip terraform.zip
+      - run: unzip terraform-v${{ env.tfversion }}.zip
 
       - name: Build terraform for GOOS=android GOARCH=arm64 
         run: |
