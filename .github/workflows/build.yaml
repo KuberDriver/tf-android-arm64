@@ -31,13 +31,15 @@ jobs:
           repository: "hashicorp/terraform"
           tag: "v${{ env.tfversion }}"
           zipBall: true
-      - run: unzip terraform-v${{ env.tfversion }}.zip
+      - run: |
+          unzip terraform-v${{ env.tfversion }}.zip
+          ls
 
       - name: Build terraform for GOOS=android GOARCH=arm64 
         run: |
           echo $GITHUB_WORKSPACE
           ls $GITHUB_WORKSPACE
-          cd $GITHUB_WORKSPACE/terraform
+          cd $GITHUB_WORKSPACE/terraform-v${{ env.tfversion }}
           git status
           #cat ./.go-version
           GOOS=android GOARCH=arm64 go build -o $GITHUB_WORKSPACE/bin/terraform          
