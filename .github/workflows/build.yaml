@@ -1,8 +1,6 @@
 name: Build binaries for terraform and providers
-on: #[ push, pull_request ]
-  push:
-    branches:
-      - *
+on:
+  - push
 
 jobs:
   build:
