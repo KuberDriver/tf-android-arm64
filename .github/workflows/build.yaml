@@ -28,8 +28,8 @@ jobs:
       
       - uses: robinraju/release-downloader@v1.3
         with:
-          repository: "user/repo"
-          tag: "v{{ tfversion }}"
+          repository: "hashicorp/terraform"
+          tag: "v${{ env.tfversion }}"
           zipBall: true
           filename: "terraform.zip"
       - run: unzip terraform.zip
