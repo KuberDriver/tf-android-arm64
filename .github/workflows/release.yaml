@@ -19,7 +19,7 @@ jobs:
         with:
           repository: hashicorp/terraform
           path: ./terraform
-          ref: v0.15
+          ref: v0.14
 
       - name: Build terraform for GOOS=android GOARCH=arm64 
         run: |
@@ -82,6 +82,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: $GITHUB_WORKSPACE/tf-artifact.zp
+          asset_path: ./tf-artifact.zp
           asset_name: tf-artifact.zip
           asset_content_type: application/zip      
