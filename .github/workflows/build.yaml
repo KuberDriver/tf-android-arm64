@@ -1,6 +1,8 @@
 name: Build binaries for terraform and providers
 on:
   - push
+env:
+  tfversion: 0.14.11
 
 jobs:
   build:
@@ -14,12 +16,15 @@ jobs:
           go-version: '1.17.2' # The Go version to download (if necessary) and use.
       - run: go version
 
+      - name: zeitgeist validate
+        run: ./hack/verify-dependencies.sh
+
       - name: Check out terraform repo
         uses: actions/checkout@v2
         with:
           repository: hashicorp/terraform
           path: ./terraform
-          ref: v0.14
+          ref: ${{ env.tfversion }}
 
       - name: Build terraform for GOOS=android GOARCH=arm64 
         run: |

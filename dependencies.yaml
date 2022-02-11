@@ -1,0 +1,19 @@
+dependencies:
+
+  # zeitgeist
+  - name: "zeitgeist"
+    version: 0.3.0
+    refPaths:
+    - path: hack/verify-dependencies.sh
+      match: VERSION=v(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?
+
+  - name: terraform
+    version: 0.14.11
+    upstream:
+      flavour: github
+      url: hashicorp/terraform
+    refPaths:
+    - path: .github/workflows/release.yaml
+      match: tfversion
+    - path: .github/workflows/build.yaml
+      match: tfversion

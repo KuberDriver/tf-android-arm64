@@ -6,6 +6,9 @@ on: #[ push, pull_request ]
       - 'v[0-9]+.[0-9]+'
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+*'
+env:
+  tfversion: v0.14
+
 jobs:
   build:
 
@@ -23,7 +26,7 @@ jobs:
         with:
           repository: hashicorp/terraform
           path: ./terraform
-          ref: v0.14
+          ref: ${{ tfversion }}
 
       - name: Build terraform for GOOS=android GOARCH=arm64 
         run: |
