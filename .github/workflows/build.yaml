@@ -2,7 +2,7 @@ name: Build binaries for terraform and providers
 on:
   - push
 env:
-  tfversion: 0.14.11
+  tfversion: "0.14.11"
 
 jobs:
   build:
@@ -29,7 +29,7 @@ jobs:
       - uses: robinraju/release-downloader@v1.3
         with:
           repository: "user/repo"
-          tag: ${{ tfversion }}
+          tag: "{{ tfversion }}"
           zipBall: true
           filename: "terraform.zip"
       - run: unzip terraform.zip
