@@ -26,13 +26,22 @@ jobs:
       #     path: ./terraform
       #     ref: ${{ tfversion }}
       
-      - uses: robinraju/release-downloader@v1.3
+      # - uses: robinraju/release-downloader@v1.3
+      #   with:
+      #     repository: "hashicorp/terraform"
+      #     tag: "v${{ env.tfversion }}"
+      #     zipBall: true
+      - uses: dsaltares/fetch-gh-release-asset@master
         with:
-          repository: "hashicorp/terraform"
-          tag: "v${{ env.tfversion }}"
-          zipBall: true
+          repo: "hashicorp/terraform"
+          version: "tags/v{{ env.tfversion }}"
+          file: "v{{ env.tfversion }}.zip"
+          target: "./terraform.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - run: |
-          unzip terraform-v${{ env.tfversion }}.zip
+          ls
+          unzip -q terraform-v${{ env.tfversion }}.zip
           ls
 
       - name: Build terraform for GOOS=android GOARCH=arm64 
