@@ -37,16 +37,17 @@ jobs:
           ls
           mkdir ./terraform
           tar -xf terraform*.tar.gz -C ./terraform
-          #unzip -q terraform-v${{ env.tfversion }}.zip
           ls ./terraform
 
       - name: Build terraform for GOOS=android GOARCH=arm64 
         run: |
           echo $GITHUB_WORKSPACE
           ls $GITHUB_WORKSPACE
-          cd $GITHUB_WORKSPACE/terraform
-          git status
+          cd $GITHUB_WORKSPACE/terraform/hashicorp-terraform*
+          
+          #git status
           #cat ./.go-version
+          
           GOOS=android GOARCH=arm64 go build -o $GITHUB_WORKSPACE/bin/terraform          
           ls $GITHUB_WORKSPACE/bin
 
