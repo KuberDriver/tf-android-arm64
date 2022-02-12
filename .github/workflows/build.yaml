@@ -36,7 +36,7 @@ jobs:
       - uses: robinraju/release-downloader@v1.3
         with:
           repository: ${{ matrix.reporver.repo }}
-          tag: "v${{ matrix.reporver.repo }}"
+          tag: "v${{ matrix.reporver.version }}"
           tarball: true
 
 
