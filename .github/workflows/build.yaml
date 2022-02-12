@@ -3,11 +3,19 @@ on:
   - push
 env:
   tfversion: "0.14.11"
+  awsprversion: "3.72.0"
+  azurermprversion: "2.95.0"
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        repover: [ {repo: "hashicorp/terraform", version: "${{ env.tfversion }}"},
+            {repo: "hashicorp/terraform-provider-azurerm", version: "${{ env.azurermprversion }}"}, 
+            {repo: "hashicorp/terraform-provider-aws", version: "${{ env.awsprversion }}"}]
     steps:
       - uses: actions/checkout@v2
 
@@ -18,63 +26,30 @@ jobs:
 
       - name: zeitgeist validate
         run: ./hack/verify-dependencies.sh
-
-      # - name: Check out terraform repo
-      #   uses: actions/checkout@v2
-      #   with:
-      #     repository: hashicorp/terraform
-      #     path: ./terraform
-      #     ref: ${{ tfversion }}
       
       - uses: robinraju/release-downloader@v1.3
         with:
-          repository: "hashicorp/terraform"
-          tag: "v${{ env.tfversion }}"
+          repository: ${{ matrix.reporver.repo }}
+          tag: "v${{ matrix.reporver.repo }}"
           tarball: true
 
 
       - run: |
           ls
-          mkdir ./terraform
-          tar -xf terraform*.tar.gz -C ./terraform
-          ls ./terraform
+          mkdir ./${{ matrix.reporver.repo }}
+          tar -xf terraform*.tar.gz -C ./${{ matrix.reporver.repo }}
+          ls ./${{ matrix.reporver.repo }}
+        name: Extract ${{ matrix.reporver.repo }} source
 
-      - name: Build terraform for GOOS=android GOARCH=arm64 
+      - name: Build ${{ matrix.reporver.repo }} for GOOS=android GOARCH=arm64 
         run: |
           echo $GITHUB_WORKSPACE
           ls $GITHUB_WORKSPACE
-          cd $GITHUB_WORKSPACE/terraform/hashicorp-terraform*
+          cd $GITHUB_WORKSPACE/${{ matrix.reporver.repo }}/hashicorp-terraform*
           
           #git status
           #cat ./.go-version
           
-          GOOS=android GOARCH=arm64 go build -o $GITHUB_WORKSPACE/bin/terraform          
+          GOOS=android GOARCH=arm64 go build -o $GITHUB_WORKSPACE/bin/${{ matrix.reporver.repo }}          
           ls $GITHUB_WORKSPACE/bin
 
-      - name: Check out azurerm provider repo
-        uses: actions/checkout@v2
-        with:
-          repository: hashicorp/terraform-provider-azurerm
-          path: ./terraform-provider-azurerm
-
-      - name: Build terraform-provider-azurerm for GOOS=android GOARCH=arm64 
-        run: |
-          cd $GITHUB_WORKSPACE/terraform-provider-azurerm
-          git status
-          #cat ./.go-version
-          GOOS=android GOARCH=arm64 go build -o $GITHUB_WORKSPACE/bin/terraform-provider-azurerm          
-          ls $GITHUB_WORKSPACE/bin
-
-      - name: Check out aws provider repo
-        uses: actions/checkout@v2
-        with:
-          repository: hashicorp/terraform-provider-aws
-          path: ./terraform-provider-aws
-
-      - name: Build terraform-provider-aws for GOOS=android GOARCH=arm64 
-        run: |
-          cd $GITHUB_WORKSPACE/terraform-provider-aws
-          git status
-          #cat ./.go-version
-          GOOS=android GOARCH=arm64 go build -o $GITHUB_WORKSPACE/bin/terraform-provider-aws          
-          ls $GITHUB_WORKSPACE/bin

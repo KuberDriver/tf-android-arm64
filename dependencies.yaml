@@ -17,3 +17,21 @@ dependencies:
       match: tfversion
     - path: .github/workflows/build.yaml
       match: tfversion
+
+  - name: terraform-provider-aws
+    version: "3.72.0"
+    upstream:
+      flavour: github
+      url: hashicorp/terraform-provider-aws
+    refPaths:
+    - path: .github/workflows/build.yaml
+      match: awsprversion
+
+  - name: terraform-provider-azurerm
+    version: "2.95.0"
+    upstream:
+      flavour: github
+      url: hashicorp/terraform-provider-azurerm
+    refPaths:
+    - path: .github/workflows/build.yaml
+      match: azurermprversion
