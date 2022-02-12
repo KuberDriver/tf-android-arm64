@@ -2,9 +2,10 @@ name: Build binaries for terraform and providers
 on:
   - push
 env:
-  TFVERSION: "0.14.11"
-  AWSPRVERSION: "3.72.0"
-  AZUREPRVERSION: "2.95.0"
+  # Declaring below as env version to make use of Zeitgeist dependency validation
+  tfversion: "0.14.11"
+  awsprversion: "3.72.0"
+  azurermprversion: "2.95.0"
 
 jobs:
   build:
@@ -12,10 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      # When GH Actions support referencing env var n matrix change below to use env var
+      # For ex: "${{ env.tfversion }}"
+      # As of this commit on 12/02/22 there is an open issue
+      # https://github.com/actions/runner/issues/480
+      # So forced to repeat version declaration here for now, couldn't 'DRY!'
       matrix:
-        repover: [ {repo: "hashicorp/terraform", version: "${{ env.TFVERSION }}"},
-            {repo: "hashicorp/terraform-provider-azurerm", version: "${{ env.AZUREPRVERSION }}"}, 
-            {repo: "hashicorp/terraform-provider-aws", version: "${{ env.AWSPRVERSION }}"}]
+        repover: [ {repo: "hashicorp/terraform", version: "0.14.11"},
+            {repo: "hashicorp/terraform-provider-azurerm", version: "3.72.0"}, 
+            {repo: "hashicorp/terraform-provider-aws", version:  "2.95.0"}]
     steps:
       - uses: actions/checkout@v2
 
