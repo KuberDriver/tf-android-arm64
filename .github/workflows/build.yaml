@@ -9,7 +9,6 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -19,9 +18,9 @@ jobs:
       # https://github.com/actions/runner/issues/480
       # So forced to repeat version declaration here for now, couldn't 'DRY!'
       matrix:
-        repover: [ {repo: "hashicorp/terraform", version: "0.14.11"},
-            {repo: "hashicorp/terraform-provider-azurerm", version: "3.72.0"}, 
-            {repo: "hashicorp/terraform-provider-aws", version:  "2.95.0"}]
+        repover: [ {repo: 'hashicorp/terraform', version: "0.14.11"},
+            {repo: 'hashicorp/terraform-provider-azurerm', version: "3.72.0"}, 
+            {repo: 'hashicorp/terraform-provider-aws', version:  "2.95.0"}]
     steps:
       - uses: actions/checkout@v2
 
@@ -35,7 +34,7 @@ jobs:
       
       - name: test matrix ref
         run: echo ${{ matrix.reporver.repo }}
-        
+
       - uses: robinraju/release-downloader@v1.3
         with:
           repository: ${{ matrix.reporver.repo }}
