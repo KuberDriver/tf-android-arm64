@@ -13,9 +13,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        repover: [ {repo: "hashicorp/terraform", version: "${{ env.tfversion }}"},
-            {repo: "hashicorp/terraform-provider-azurerm", version: "${{ env.azurermprversion }}"}, 
-            {repo: "hashicorp/terraform-provider-aws", version: "${{ env.awsprversion }}"}]
+        repover: [ {repo: "hashicorp/terraform", version: ${{ env.tfversion }}},
+            {repo: "hashicorp/terraform-provider-azurerm", version: ${{ env.azurermprversion }}}, 
+            {repo: "hashicorp/terraform-provider-aws", version: ${{ env.awsprversion }}}]
     steps:
       - uses: actions/checkout@v2
 
