@@ -2,9 +2,9 @@ name: Build binaries for terraform and providers
 on:
   - push
 env:
-  tfversion: "0.14.11"
-  awsprversion: "3.72.0"
-  azurermprversion: "2.95.0"
+  TFVERSION: "0.14.11"
+  AWSPRVERSION: "3.72.0"
+  AZUREPRVERSION: "2.95.0"
 
 jobs:
   build:
@@ -13,9 +13,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        repover: [ {repo: "hashicorp/terraform", version: ${{ env.tfversion }}},
-            {repo: "hashicorp/terraform-provider-azurerm", version: ${{ env.azurermprversion }}}, 
-            {repo: "hashicorp/terraform-provider-aws", version: ${{ env.awsprversion }}}]
+        repover: [ {repo: "hashicorp/terraform", version: "${{ env.TFVERSION }}"},
+            {repo: "hashicorp/terraform-provider-azurerm", version: "${{ env.AZUREPRVERSION }}"}, 
+            {repo: "hashicorp/terraform-provider-aws", version: "${{ env.AWSPRVERSION }}"}]
     steps:
       - uses: actions/checkout@v2
 
