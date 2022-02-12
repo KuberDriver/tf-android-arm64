@@ -33,6 +33,9 @@ jobs:
       - name: zeitgeist validate
         run: ./hack/verify-dependencies.sh
       
+      - name: test matrix ref
+        run: echo ${{ matrix.reporver.repo }}
+        
       - uses: robinraju/release-downloader@v1.3
         with:
           repository: ${{ matrix.reporver.repo }}
