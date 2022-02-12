@@ -35,6 +35,7 @@ jobs:
 
       - run: |
           ls
+          mkdir ./terraform
           tar -xf terraform*.tar.gz -C ./terraform
           #unzip -q terraform-v${{ env.tfversion }}.zip
           ls ./terraform
