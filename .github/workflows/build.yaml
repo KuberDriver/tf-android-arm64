@@ -15,8 +15,8 @@ jobs:
       matrix:
         repver: 
           - { repository: hashicorp/terraform, version: "0.14.11" }
-          - { repository: hashicorp/terraform-provider-azurerm, version: "3.72.0" }
-          - { repository: hashicorp/terraform-provider-aws, version:  "2.95.0" }
+          - { repository: hashicorp/terraform-provider-azurerm, version: "2.95.0" }
+          - { repository: hashicorp/terraform-provider-aws, version: "3.72.0" }
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -46,7 +46,7 @@ jobs:
     - name: Extract ${{ matrix.repver.repository }} source
       run: |
         ls
-        mkdir ./${{ matrix.repver.repository }}
+        mkdir -p ./${{ matrix.repver.repository }}
         tar -xf terraform*.tar.gz -C ./${{ matrix.repver.repository }}
         ls ./${{ matrix.repver.repository }}      
     - name: Build ${{ matrix.repver.repository }} for GOOS=android GOARCH=arm64 
