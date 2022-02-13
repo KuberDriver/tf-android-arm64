@@ -32,7 +32,9 @@ jobs:
     - name: zeitgeist validate
       run: ./hack/verify-dependencies.sh    
     - name: test matrix ref
-      run: echo ${{ matrix.repository }}
+      env: 
+        REPO: ${{ matrix.repository }}
+      run: echo $REPO
     - name: Download sources for ${{ matrix.repository }}
       uses: robinraju/release-downloader@v1.3
       with:
