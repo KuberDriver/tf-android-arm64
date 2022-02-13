@@ -18,9 +18,13 @@ jobs:
       # https://github.com/actions/runner/issues/480
       # So forced to repeat version declaration here for now, couldn't 'DRY!'
       matrix:
-        repover: [ {repo: 'hashicorp/terraform', version: "0.14.11"},
-            {repo: 'hashicorp/terraform-provider-azurerm', version: "3.72.0"}, 
-            {repo: 'hashicorp/terraform-provider-aws', version:  "2.95.0"}]
+        inclide: 
+          - repository: 'hashicorp/terraform' 
+            version: "0.14.11"
+          - repository: 'hashicorp/terraform-provider-azurerm'
+            version: "3.72.0"
+          - repository: 'hashicorp/terraform-provider-aws'
+            version:  "2.95.0"
     steps:
       - uses: actions/checkout@v2
 
@@ -33,31 +37,31 @@ jobs:
         run: ./hack/verify-dependencies.sh
       
       - name: test matrix ref
-        run: echo ${{ matrix.reporver.repo }}
+        run: echo ${{ matrix.repository }}
 
       - uses: robinraju/release-downloader@v1.3
         with:
-          repository: ${{ matrix.reporver.repo }}
-          tag: "v${{ matrix.reporver.version }}"
+          repository: ${{ matrix.repository }}
+          tag: "v${{ matrix.version }}"
           tarball: true
 
 
       - run: |
           ls
-          mkdir ./${{ matrix.reporver.repo }}
-          tar -xf terraform*.tar.gz -C ./${{ matrix.reporver.repo }}
-          ls ./${{ matrix.reporver.repo }}
-        name: Extract ${{ matrix.reporver.repo }} source
+          mkdir ./${{ matrix.repo }}
+          tar -xf terraform*.tar.gz -C ./${{ matrix.repo }}
+          ls ./${{ matrix.repo }}
+        name: Extract ${{ matrix.repo }} source
 
-      - name: Build ${{ matrix.reporver.repo }} for GOOS=android GOARCH=arm64 
+      - name: Build ${{ matrix.repo }} for GOOS=android GOARCH=arm64 
         run: |
           echo $GITHUB_WORKSPACE
           ls $GITHUB_WORKSPACE
-          cd $GITHUB_WORKSPACE/${{ matrix.reporver.repo }}/hashicorp-terraform*
+          cd $GITHUB_WORKSPACE/${{ matrix.repo }}/hashicorp-terraform*
           
           #git status
           #cat ./.go-version
           
-          GOOS=android GOARCH=arm64 go build -o $GITHUB_WORKSPACE/bin/${{ matrix.reporver.repo }}          
+          GOOS=android GOARCH=arm64 go build -o $GITHUB_WORKSPACE/bin/${{ matrix.repo }}          
           ls $GITHUB_WORKSPACE/bin
 
