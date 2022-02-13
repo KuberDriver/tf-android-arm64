@@ -28,36 +28,36 @@ jobs:
         echo $REPO
         echo $VER
       shell: bash
-    # - name: Setup Go
-    #   uses: actions/setup-go@v2
-    #   with:
-    #     go-version: '1.17.2' # The Go version to download (if necessary) and use.
-    # - name: Go version check
-    #   run: go version
-    # - name: zeitgeist validate
-    #   run: ./hack/verify-dependencies.sh    
+    - name: Setup Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.17.2' # The Go version to download (if necessary) and use.
+    - name: Go version check
+      run: go version
+    - name: zeitgeist validate
+      run: ./hack/verify-dependencies.sh    
 
-    # - name: Download sources for ${{ matrix.repository }}
-    #   uses: robinraju/release-downloader@v1.3
-    #   with:
-    #     repository: ${{ matrix.repository }}
-    #     tag: "v${{ matrix.version }}"
-    #     tarball: true
-    # - name: Extract ${{ matrix.repository }} source
-    #   run: |
-    #     ls
-    #     mkdir ./${{ matrix.repository }}
-    #     tar -xf terraform*.tar.gz -C ./${{ matrix.repository }}
-    #     ls ./${{ matrix.repository }}      
-    # - name: Build ${{ matrix.repository }} for GOOS=android GOARCH=arm64 
-    #   run: |
-    #     echo $GITHUB_WORKSPACE
-    #     ls $GITHUB_WORKSPACE
-    #     cd $GITHUB_WORKSPACE/${{ matrix.repository }}/hashicorp-terraform*
+    - name: Download sources for ${{ matrix.repver.repository }}
+      uses: robinraju/release-downloader@v1.3
+      with:
+        repository: ${{ matrix.repver.repository }}
+        tag: "v${{ matrix.repver.version }}"
+        tarball: true
+    - name: Extract ${{ matrix.repver.repository }} source
+      run: |
+        ls
+        mkdir ./${{ matrix.repver.repository }}
+        tar -xf terraform*.tar.gz -C ./${{ matrix.repver.repository }}
+        ls ./${{ matrix.repver.repository }}      
+    - name: Build ${{ matrix.repver.repository }} for GOOS=android GOARCH=arm64 
+      run: |
+        echo $GITHUB_WORKSPACE
+        ls $GITHUB_WORKSPACE
+        cd $GITHUB_WORKSPACE/${{ matrix.repver.repository }}/hashicorp-terraform*
         
-    #     #git status
-    #     #cat ./.go-version
+        #git status
+        #cat ./.go-version
         
-    #     GOOS=android GOARCH=arm64 go build -o $GITHUB_WORKSPACE/bin/${{ matrix.repo }}          
-    #     ls $GITHUB_WORKSPACE/bin
+        GOOS=android GOARCH=arm64 go build -o $GITHUB_WORKSPACE/bin/${{ matrix.repo }}          
+        ls $GITHUB_WORKSPACE/bin
 
