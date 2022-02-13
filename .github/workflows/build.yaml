@@ -12,56 +12,48 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      # When GH Actions support referencing env var n matrix change below to use env var
-      # For ex: "${{ env.tfversion }}"
-      # As of this commit on 12/02/22 there is an open issue
-      # https://github.com/actions/runner/issues/480
-      # So forced to repeat version declaration here for now, couldn't 'DRY!'
       matrix:
         inclide: 
-          - repository: 'hashicorp/terraform' 
+          - repository: hashicorp/terraform
             version: "0.14.11"
-          - repository: 'hashicorp/terraform-provider-azurerm'
+          - repository: hashicorp/terraform-provider-azurerm
             version: "3.72.0"
-          - repository: 'hashicorp/terraform-provider-aws'
+          - repository: hashicorp/terraform-provider-aws
             version:  "2.95.0"
     steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-go@v2
-        with:
-          go-version: '1.17.2' # The Go version to download (if necessary) and use.
-      - run: go version
-
-      - name: zeitgeist validate
-        run: ./hack/verify-dependencies.sh
-      
-      - name: test matrix ref
-        run: echo ${{ matrix.repository }}
-
-      - uses: robinraju/release-downloader@v1.3
-        with:
-          repository: ${{ matrix.repository }}
-          tag: "v${{ matrix.version }}"
-          tarball: true
-
-
-      - run: |
-          ls
-          mkdir ./${{ matrix.repo }}
-          tar -xf terraform*.tar.gz -C ./${{ matrix.repo }}
-          ls ./${{ matrix.repo }}
-        name: Extract ${{ matrix.repo }} source
-
-      - name: Build ${{ matrix.repo }} for GOOS=android GOARCH=arm64 
-        run: |
-          echo $GITHUB_WORKSPACE
-          ls $GITHUB_WORKSPACE
-          cd $GITHUB_WORKSPACE/${{ matrix.repo }}/hashicorp-terraform*
-          
-          #git status
-          #cat ./.go-version
-          
-          GOOS=android GOARCH=arm64 go build -o $GITHUB_WORKSPACE/bin/${{ matrix.repo }}          
-          ls $GITHUB_WORKSPACE/bin
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.17.2' # The Go version to download (if necessary) and use.
+    - name: Go version check
+      run: go version
+    - name: zeitgeist validate
+      run: ./hack/verify-dependencies.sh    
+    - name: test matrix ref
+      run: echo ${{ matrix.repository }}
+    - name: Download sources for ${{ matrix.repository }}
+      uses: robinraju/release-downloader@v1.3
+      with:
+        repository: ${{ matrix.repository }}
+        tag: "v${{ matrix.version }}"
+        tarball: true
+    - name: Extract ${{ matrix.repository }} source
+      run: |
+        ls
+        mkdir ./${{ matrix.repository }}
+        tar -xf terraform*.tar.gz -C ./${{ matrix.repository }}
+        ls ./${{ matrix.repository }}      
+    - name: Build ${{ matrix.repository }} for GOOS=android GOARCH=arm64 
+      run: |
+        echo $GITHUB_WORKSPACE
+        ls $GITHUB_WORKSPACE
+        cd $GITHUB_WORKSPACE/${{ matrix.repository }}/hashicorp-terraform*
+        
+        #git status
+        #cat ./.go-version
+        
+        GOOS=android GOARCH=arm64 go build -o $GITHUB_WORKSPACE/bin/${{ matrix.repo }}          
+        ls $GITHUB_WORKSPACE/bin
 
